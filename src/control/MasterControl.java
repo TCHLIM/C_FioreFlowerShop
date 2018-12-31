@@ -13,15 +13,16 @@ public class MasterControl {
     private ConsumerControl conCtrl = new ConsumerControl();
     private CorCustControl corCtrl= new CorCustControl();
     private FlowerControl fCtrl=new FlowerControl();
-    private InvoiceControl iCtrl=new InvoiceControl();
     private OrderControl oCtrl=new OrderControl();
+    private InvoiceControl iCtrl=new InvoiceControl();
     
     public MasterControl(){
         conCtrl.init();
         corCtrl.init();
         fCtrl.init();
-        iCtrl.init();
         oCtrl.init();
+        iCtrl.init();
+        
     }
     
     

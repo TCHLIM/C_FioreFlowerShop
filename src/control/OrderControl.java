@@ -29,9 +29,9 @@ public class OrderControl {
         CC.init();
         
         
-        for(int d=0;d<12;d++){
+        for(int d=1;d<12;d++){
             date= new Date();
-            date.setMonth(d);date.setYear(2017);
+            date.setMonth(d);date.setYear(2018);
             for(int c=0;c<CC.getAll().size();c++){
                 corCust = CC.getAll().getEntry(c);
                 for(int i=0;i<4;i++){

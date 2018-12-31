@@ -48,13 +48,17 @@ public class GenerateInvoiceUI {
         MC.setoCtrl(OC);
         return MC;
     }
+    private String invYear, invMonth;
     private Date selectedDate = new Date();
     public void startInvoice(){
         corCust = checkCustomer();ListInterface<Order> filteredList;
         if(corCust!=null){//if 1
             while(!selectMonth());
+            selectedDate.setMonth(Integer.parseInt(invMonth));
             if(!IC.stopLoop()){//if 2
                 while(!selectYear());
+                selectedDate.setYear(Integer.parseInt(invYear));
+        
                 if(!IC.stopLoop()){//if 3
                     filteredList=getOrder(selectedDate,corCust.getCustID());
                     if(!filteredList.isEmpty()){//if 3
@@ -84,7 +88,7 @@ public class GenerateInvoiceUI {
             
         }
 //Invoice(String invoiceID, String invoiceStatus, Date currentMonth, String corCustID)
-        IC.generate(new Invoice(IC.generateID(),"PENDING",d,c.getCustID(),totalPrice));
+        IC.generate(new Invoice(IC.generateID(),"PENDING",d,c.getCustID(),orderID,totalPrice));
         
         System.out.println("--------------------------------------------------------------------------------");        
         System.out.println("                                    TOTAL RM"+totalPrice);
@@ -109,17 +113,15 @@ public class GenerateInvoiceUI {
         return corCust;
     }
     public boolean selectMonth(){
-        String invMonth;
+        selectedDate=new Date();
         System.out.println("Enter 1 - 12 to select month of invoice, '0'to cancel");
         invMonth=sc.next();
-        selectedDate.setMonth(Integer.parseInt(invMonth));
         return IC.inputValidation("MONTH", invMonth);
     }
     public boolean selectYear(){
-        String invYear;
+        invYear="";selectedDate.setYear(0);
         System.out.println("Enter the year of invoice in digit, '0' to exit");
         invYear=sc.next();
-        selectedDate.setYear(Integer.parseInt(invYear));
         return IC.inputValidation("YEAR", invYear);
         
     }

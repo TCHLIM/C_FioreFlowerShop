@@ -54,17 +54,20 @@ public class MakeOrderUI {
             System.out.println("***************************");
             corCust=null;
             System.out.println("##############################################################");
-        }
-        if(CC.getValidation()){
-            if(corCust.calRemainCredit()<=10){
-                corCust=null;
-                System.out.println("credit limit is not enough...");
-            }
-            if(!MC.getiCtrl().checkPaymentStatus(custID)){
-                System.out.println("Please pay for the last month invoice amount first...");
-                corCust=null;
-            }
-        }    
+        }else{
+            if(CC.getValidation()){
+                if(!MC.getiCtrl().checkPaymentStatus(custID)){
+                    System.out.println("Please pay for the last month invoice amount first...");
+                    corCust=null;
+                }else{
+                    if(corCust.calRemainCredit()<=10){
+                    corCust=null;
+                    System.out.println("credit limit is not enough...");
+                    }//end if else
+                }//end if else
+            }//end if
+        }//end if
+                
         return corCust;
     }
     
@@ -73,7 +76,10 @@ public class MakeOrderUI {
         System.out.printf("%-8s%-10s%-10s%-5s%-15s%-10s%-8s\n", "ÏD","Name","color","qty","Type","","price");
         System.out.println("----------------------------------------------------------------------------------");
         for(int i=0;i<FC.getAll().size();i++){
-            System.out.println(FC.getAll().getEntry(i).toFormatString());
+            if(FC.getAll().getEntry(i).getStatus()){
+                System.out.println(FC.getAll().getEntry(i).toFormatString());
+            }
+                
         }
         
         
@@ -128,11 +134,17 @@ public class MakeOrderUI {
             if(flower!=null){
                 int qty=selectQuantity(flower);
                 if(qty!=0){
-                    OC.add(new Order(OC.generateID(),flower.getName(),flower.getColor(),flower.getType(),qty,flower.getPrice()
-                    ,date,flower.getID(),corCust.getCustID(),"PENDING"));
-                    flower.setQty(flower.getQty()-qty);
-                    FC.update(flower);
-                    System.out.println(OC.search(OC.getAll().getEntry(OC.getAll().size()-1).getOrderID()).toString());
+                    if(corCust.calRemainCredit()>=(qty*flower.getPrice())){
+                        OC.add(new Order(OC.generateID(),flower.getName(),flower.getColor(),flower.getType(),qty,flower.getPrice()
+                        ,date,flower.getID(),corCust.getCustID(),"PENDING"));
+                        flower.setQty(flower.getQty()-qty);
+                        FC.update(flower);
+                        corCust.setSpentCreditLimit(corCust.getSpentCreditLimit()+(qty*flower.getPrice()));
+                    }else{
+                       System.out.println("credit limit not enough");
+                    }
+                        
+//System.out.println(OC.search(OC.getAll().getEntry(OC.getAll().size()-1).getOrderID()).toString());
                     
                 }else{System.out.println("Order Cancelled...");}
             }

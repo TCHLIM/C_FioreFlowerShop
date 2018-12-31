@@ -27,11 +27,12 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(String invoiceID, String invoiceStatus, Date currentMonth, String corCustID,double price) {
+    public Invoice(String invoiceID, String invoiceStatus, Date currentMonth, String corCustID,ListInterface<String> orderID,double price) {
         this.invoiceID = invoiceID;
         this.invoiceStatus = invoiceStatus;
         this.currentMonth = currentMonth;
         this.corCustID = corCustID;
+        this.orderID=orderID;
         this.price = price;
     }
 
@@ -41,7 +42,7 @@ public class Invoice {
 
     public String getInvoiceStatus() {
         if(!"PAID".equals(invoiceStatus)){
-            if(getInvoiceDueDate().getMonth()==today.getMonthValue()&&getInvoiceDueDate().getYear()==today.getYear()&&today.getDayOfMonth()>=7){
+            if(getInvoiceDueDate().getMonth()==today.getMonthValue()&&getInvoiceDueDate().getYear()==today.getYear()&&today.getDayOfMonth()>7){
                 invoiceStatus="OVERDUED";
             }
         }

@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,6 +6,8 @@
  */
 package control;
 
+import ADT.LList;
+import ADT.ListInterface;
 import da.InvoiceDA;
 import domain.Invoice;
 import java.time.LocalDate;
@@ -17,26 +20,45 @@ import java.util.Date;
 public class InvoiceControl {
     private InvoiceDA invoiceDA = new InvoiceDA();
     private Invoice invoice;
+    private OrderControl OC = new OrderControl();
     
     public void init(){
+        OC.init();
+        ListInterface<String> orderID=new LList<>();double totalPrice=0;Date date= new Date();
+        for(int i=0;i<OC.getAll().size();i++){
+            if("B0001".equals(OC.getAll().getEntry(i).getCustID())&&OC.getAll().getEntry(i).getDateAdded().getMonth()==11){
+                orderID.add(OC.getAll().getEntry(i).getOrderID());//System.out.println(OC.getAll().getEntry(i).getOrderID());
+                totalPrice+=OC.getAll().getEntry(i).getItemPrice();//System.out.println(totalPrice);
         
+            }
+//Invoice(String invoiceID, String invoiceStatus, Date currentMonth, String corCustID,double price)
+            
+        
+        }//end for
+        date.setMonth(11);date.setYear(2018);
+        invoiceDA.add(new Invoice(generateID(),"OVERDUED",date,"B0001",orderID,totalPrice));
+        invoiceDA.add(new Invoice(generateID(),"OVERDUED",date,"B0002",orderID,totalPrice));
+        System.out.println("****************************************"+invoiceDA.searchCorCust("B0002").getOrderID()+"\n");
     }
 
     public void generate(Invoice v){
         invoiceDA.add(v);
     }
     
+    
+    
     public boolean checkPaymentStatus(String corCustID){
         invoice=invoiceDA.searchCorCust(corCustID);
-        try{
+        if(getValidation()){
+            System.out.println(invoice.getInvoiceStatus());
             if("OVERDUED".equals(invoice.getInvoiceStatus())){
+                System.out.println(invoice.getInvoiceStatus());
                 return false;
             }else{
                 return true;
             }
-        }catch(Exception ex){
-            return true;
-        }
+        }else{return true;}
+        
     }
     
     private Date date = new Date();
@@ -63,16 +85,18 @@ public class InvoiceControl {
                     ;break;
                 case "YEAR" :  
                     Date newDate= new Date();
-                    newDate.setMonth(todayDate.getMonthValue());newDate.setYear(todayDate.getYear()-1900);
-                    
+                    newDate.setMonth(todayDate.getMonthValue());newDate.setYear(todayDate.getYear());
+                    System.out.println(newDate.getMonth()+"="+date.getMonth());
+                    System.out.println(newDate.getYear()+"="+date.getYear());
                     try{
+                        date.setMonth(Integer.parseInt(userInput));
                         if(date.after(newDate)&&date.getMonth()!=newDate.getMonth()){
                             validation=false;
                             System.out.println("that is future***");
                         }
                     }catch(Exception ex){
                         System.out.println("please enter the valid year in digit***");
-                        validation=false;
+                        validation=false;date.setYear(0);
                     }//end try
                     ;break;
                 
@@ -84,6 +108,9 @@ public class InvoiceControl {
     
     public boolean stopLoop(){
         return stop;
+    }
+    public boolean getValidation(){
+        return invoiceDA.getValidation();
     }
     
     public String generateID(){

@@ -51,6 +51,7 @@ public class InvoiceDA {
                 invoice=invoiceList.getEntry(countPlace);
                 if(invoice.getCorCustID().equals(ID)){
                     validation=true;countPlace=invoiceList.size();
+                    
                 }else{validation=false;}
                 countPlace++;
             }//end while
