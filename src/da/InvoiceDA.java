@@ -27,14 +27,17 @@ public class InvoiceDA {
     
     
     public void add(Invoice c){        
-        invoice = new Invoice();int countPlace=0;
+        invoice = new Invoice();int countPlace=0;validation=true;
         if(!invoiceList.isEmpty()){    
             while(countPlace<invoiceList.size()){
                 invoice=invoiceList.getEntry(countPlace);
-                if(invoice.getCurrentMonth().getMonth()==c.getCurrentMonth().getMonth()&&invoice.getCurrentMonth().getYear()==c.getCurrentMonth().getYear()&&!"PAID".equals(invoice.getInvoiceStatus())){
-                    validation=false;countPlace=invoiceList.size();
-                    invoiceList.replace(countPlace,c);
-                }else{validation=true;}
+                if(invoice.getCorCustID().equals(c.getCorCustID())){
+                    if(invoice.getCurrentMonth().getMonth()==c.getCurrentMonth().getMonth()&&invoice.getCurrentMonth().getYear()==c.getCurrentMonth().getYear()&&!"PAID".equals(invoice.getInvoiceStatus())){
+                        c.setCorCustID(invoice.getCorCustID());
+                        validation=false;countPlace=invoiceList.size();
+                        invoiceList.replace(countPlace,c);
+                    }else{validation=true;}
+                }    
                 countPlace++;
             }//end while
             if(validation==true){invoiceList.add(c);validation=true;}//end if
@@ -65,6 +68,9 @@ public class InvoiceDA {
     }
     public String getErrorMessage(){
         return message;
+    }
+    public ListInterface<Invoice> getAll(){
+        return invoiceList;
     }
     public String getLastID(){
         String invoiceID="";

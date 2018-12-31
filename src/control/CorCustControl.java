@@ -19,9 +19,9 @@ public class CorCustControl {
 
     public void init(){
         corCustDA.add(new CorCust(generateID(),"CHUEN BHD","01127011502","WANGSA MAJU",5000,3000,"EXISTING"));
-        corCustDA.add(new CorCust(generateID(),"OPOPO BHD","01127011502","TT Wangsa",5000,2000,"EXISTING"));
-        corCustDA.add(new CorCust(generateID(),"AAAAA BHD","01127011502","Taman Duta",5000,200,"EXISTING"));
-        corCustDA.add(new CorCust(generateID(),"CHLIM BHD","01127011502","Pulau pniang",5000,900,"EXISTING"));
+        corCustDA.add(new CorCust(generateID(),"OPOPO BHD","01127011502","TT Wangsa",500,2000,"EXISTING"));
+        corCustDA.add(new CorCust(generateID(),"AAAAA BHD","01127011502","Taman Duta",400,200,"EXISTING"));
+        corCustDA.add(new CorCust(generateID(),"CHLIM BHD","01127011502","Pulau pniang",50,0,"EXISTING"));
         corCustDA.add(new CorCust(generateID(),"TUTLE BHD","01127011502","WANGSA MAJU",5000,3000,"EXISTING"));
         corCustDA.add(new CorCust(generateID(),"PHLIM BHD","01127011502","WANGSA MAJU",5000,1000,"EXISTING"));
     }

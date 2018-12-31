@@ -107,7 +107,7 @@ public class ManageCorCustUI {
             do {
                 System.out.println("Enter the new credit limit:");
                 newDetail=sc.nextLine();
-                System.out.println(CC.getMessage());
+                
             } while (!CC.inputValidation(3,newDetail)&&!CC.stopLoop());
             System.out.println("");
         }else{System.out.println(CC.getMessage());}//end if else

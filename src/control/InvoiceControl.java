@@ -37,8 +37,7 @@ public class InvoiceControl {
         }//end for
         date.setMonth(11);date.setYear(2018);
         invoiceDA.add(new Invoice(generateID(),"OVERDUED",date,"B0001",orderID,totalPrice));
-        invoiceDA.add(new Invoice(generateID(),"OVERDUED",date,"B0002",orderID,totalPrice));
-        System.out.println("****************************************"+invoiceDA.searchCorCust("B0002").getOrderID()+"\n");
+        //System.out.println("size: "+invoiceDA.getAll().size());
     }
 
     public void generate(Invoice v){
@@ -49,10 +48,10 @@ public class InvoiceControl {
     
     public boolean checkPaymentStatus(String corCustID){
         invoice=invoiceDA.searchCorCust(corCustID);
-        if(getValidation()){
-            System.out.println(invoice.getInvoiceStatus());
+        if(invoiceDA.getValidation()){
+            //System.out.println(invoice.getInvoiceStatus());
             if("OVERDUED".equals(invoice.getInvoiceStatus())){
-                System.out.println(invoice.getInvoiceStatus());
+                //System.out.println(invoice.getInvoiceStatus());
                 return false;
             }else{
                 return true;
@@ -86,8 +85,8 @@ public class InvoiceControl {
                 case "YEAR" :  
                     Date newDate= new Date();
                     newDate.setMonth(todayDate.getMonthValue());newDate.setYear(todayDate.getYear());
-                    System.out.println(newDate.getMonth()+"="+date.getMonth());
-                    System.out.println(newDate.getYear()+"="+date.getYear());
+                    //System.out.println(newDate.getMonth()+"="+date.getMonth());
+                    //System.out.println(newDate.getYear()+"="+date.getYear());
                     try{
                         date.setMonth(Integer.parseInt(userInput));
                         if(date.after(newDate)&&date.getMonth()!=newDate.getMonth()){
@@ -112,7 +111,9 @@ public class InvoiceControl {
     public boolean getValidation(){
         return invoiceDA.getValidation();
     }
-    
+    public ListInterface<Invoice> getAll(){
+        return invoiceDA.getAll();
+    }
     public String generateID(){
         String invID="";
         String lastID;

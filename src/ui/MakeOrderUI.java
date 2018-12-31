@@ -43,7 +43,7 @@ public class MakeOrderUI {
     }
     
     public CorCust checkCustomer(){
-        String custID;
+        String custID="";
         do {
             System.out.println("Enter the corporate customer id, '0' to cancel");
             custID=sc.nextLine();
@@ -56,6 +56,7 @@ public class MakeOrderUI {
             System.out.println("##############################################################");
         }else{
             if(CC.getValidation()){
+                
                 if(!MC.getiCtrl().checkPaymentStatus(custID)){
                     System.out.println("Please pay for the last month invoice amount first...");
                     corCust=null;
@@ -130,6 +131,7 @@ public class MakeOrderUI {
         corCust=checkCustomer();
         if(corCust!=null){
             displayFlower();
+            System.out.println("Remain Credit limit :" + corCust.calRemainCredit());
             flower = selectFlower();
             if(flower!=null){
                 int qty=selectQuantity(flower);

@@ -41,10 +41,10 @@ public class OrderControl {
                 }//end nested for
             }//end nested for
         }
-        for(int i =0;i<orderDA.getAll().size();i++){
+        /*for(int i =0;i<orderDA.getAll().size();i++){
             System.out.println(orderDA.getAll().getEntry(i).toString());
             System.out.println(orderDA.getAll().getEntry(i).getCustID());
-        }
+        }*/
         
         
     }

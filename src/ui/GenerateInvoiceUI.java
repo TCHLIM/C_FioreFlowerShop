@@ -71,11 +71,12 @@ public class GenerateInvoiceUI {
         }//end if 1
     }
     public void GenerateInvoice(CorCust c,ListInterface<Order> o,Date d){
+        SimpleDateFormat sf = new SimpleDateFormat("MM");
         ListInterface<String> orderID = new LList();double totalPrice=0.00;
         System.out.println("#####################################################################################");
         System.out.printf("%-20s%-40s%-10s\n","Fiore Flower Shop","","INVOICE");
         System.out.printf("%55s%-15s\n","","INVOICE# | MONTH");
-        System.out.printf("%58s%6s%-1s%-5s%-1s%-5s\n","","V0001","|",d.getMonth(),"/",d.getYear());
+        System.out.printf("%58s%6s%-1s%-2s%-1s%-5s\n","",IC.generateID(),"|",sf.format(d),"/",d.getYear());
         System.out.println("BILL TO\n"+corCust.getContractName()+"\n"+corCust.getCustPhone() );
         System.out.println("--------------------------------------------------------------------------------");
         System.out.printf("%-4s%-50s%-10s%-10s\n","NO","Item","QTY","Amount(RM)");
@@ -83,8 +84,10 @@ public class GenerateInvoiceUI {
         for(int i=0;i<o.size();i++){
             order = o.getEntry(i);
             orderID.add(order.getOrderID());
-            totalPrice+=order.getItemPrice();
-            System.out.printf("%-4s(%-5s)%-55s%-10s%-10s\n",i+1,order.getOrderID(),order.getItemName(),order.getItemQty(),order.getItemPrice());
+            totalPrice+=(order.getItemPrice()*order.getItemQty());
+            System.out.printf("%-4s(%-5s)%-45s%-10s%-10s\n",i+1,order.getOrderID(),order.getItemName()+"-"+order.getColor()
+                    +" (RM "+order.getItemPrice()+"/unit)",
+                    order.getItemQty(),order.getItemPrice()*order.getItemQty());
             
         }
 //Invoice(String invoiceID, String invoiceStatus, Date currentMonth, String corCustID)
